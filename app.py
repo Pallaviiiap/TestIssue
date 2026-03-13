@@ -13,12 +13,13 @@ def home():
 
 @app.route("/login", methods=["POST"])
 def login():
-
     username = request.form.get("username")
     password = request.form.get("password")
 
-    # FIX: check if username exists
-    if username in users and users[username] == password:
+    # Check if username exists first
+    if username not in users:
+        message = "Invalid username or password"
+    elif users[username] == password:
         message = "Login Successful"
     else:
         message = "Invalid username or password"
