@@ -17,7 +17,9 @@ def login():
     username = request.form.get("username")
     password = request.form.get("password")
 
-    # FIX: check if username exists
+    if not username or not password:
+        return render_template("index.html", error="Username and password are required")
+
     if username in users and users[username] == password:
         message = "Login Successful"
     else:
