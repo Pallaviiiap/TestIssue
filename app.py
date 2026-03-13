@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
@@ -13,17 +13,15 @@ def home():
 
 @app.route("/login", methods=["POST"])
 def login():
-
     username = request.form.get("username")
     password = request.form.get("password")
 
-    # FIX: check if username exists
-    if username in users and users[username] == password:
-        message = "Login Successful"
+    if username not in users:
+        return render_template("result.html", message="Username not found")
+    elif users[username] != password:
+        return render_template("result.html", message="Invalid password")
     else:
-        message = "Invalid username or password"
-
-    return render_template("result.html", message=message)
+        return render_template("result.html", message="Login Successful")
 
 
 if __name__ == "__main__":
