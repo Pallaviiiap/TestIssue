@@ -14,7 +14,7 @@ def home():
 @app.route("/login", methods=["POST"])
 def login():
 
-    username = request.form.get("username")
+    username = request.form.get("username").strip()
     password = request.form.get("password")
 
     # FIX: check if username exists
