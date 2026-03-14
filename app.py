@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for, flash
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'
 
 users = {
     "admin": "1234",
@@ -13,17 +14,19 @@ def home():
 
 @app.route("/login", methods=["POST"])
 def login():
-
     username = request.form.get("username")
     password = request.form.get("password")
 
-    # FIX: check if username exists
-    if username in users and users[username] == password:
-        message = "Login Successful"
-    else:
-        message = "Invalid username or password"
+    if not username or not password:
+        flash("Both username and password fields are required")
+        return redirect(url_for('home'))
 
-    return render_template("result.html", message=message)
+    if username not in users:
+        return render_template("result.html", message="Username not found")
+    elif users[username] != password:
+        return render_template("result.html", message="Invalid password")
+    else:
+        return render_template("result.html", message="Login Successful")
 
 
 if __name__ == "__main__":
