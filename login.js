@@ -4,13 +4,14 @@ document.getElementById('loginButton').addEventListener('click', function() {
     
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    const csrf_token = document.getElementById('csrf_token').value;
     
     fetch('/login', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&csrf_token=${encodeURIComponent(csrf_token)}`
     })
     .then(response => response.text())
     .then(html => {
